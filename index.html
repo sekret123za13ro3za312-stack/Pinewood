@@ -21,17 +21,17 @@
 
   .main-container {
     position: relative;
-    width: 90vw;           
-    height: 90vh;          
-    background: #e3e3e3; 
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8); 
-    overflow: hidden; 
+    width: 90vw;
+    height: 90vh;
+    background: #e3e3e3;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
     border: 1px solid #000;
   }
 
   .main-list-header {
     display: flex;
-    align-items: center; 
+    align-items: center;
     gap: 10px;
     margin-bottom: 20px;
     padding-bottom: 10px;
@@ -41,7 +41,7 @@
   .left-logo-group {
     display: flex;
     flex-direction: column;
-    gap: 4px; 
+    gap: 4px;
     align-items: flex-start;
   }
 
@@ -55,7 +55,7 @@
     letter-spacing: 1px;
     line-height: 1.2;
     margin-left: 0;
-    text-shadow: 1px 1px 0px rgba(255,255,255,0.8), 2px 2px 0px rgba(0,0,0,0.2); 
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8), 2px 2px 0px rgba(0,0,0,0.2);
   }
 
   .nav-tabs {
@@ -66,6 +66,7 @@
     border-radius: 0;
     gap: 3px;
     width: fit-content;
+    flex-wrap: wrap;
   }
 
   .nav-btn {
@@ -107,7 +108,7 @@
   .btn-exit:hover { background: #d00; color: #fff; }
 
   #userStatus {
-    display: none; 
+    display: none;
     font-size: 12px;
     font-weight: bold;
     color: #000;
@@ -118,7 +119,7 @@
   }
 
   .page-view {
-    display: none; 
+    display: none;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -139,7 +140,7 @@
 
   .footer-disclaimer { position: absolute; bottom: 15px; right: 20px; font-size: 10px; color: #777; text-align: right; z-index: 15; }
 
-  #dashboardPage, #friendsPage, #mailPage, #consolePage, #adminPanelPage { padding: 20px 30px; }
+  #dashboardPage, #friendsPage, #mailPage, #consolePage, #adminPanelPage, #rulesPage, #privacyPage { padding: 20px 30px; }
   .dashboard-wrapper { width: 100%; }
   .dashboard-content { display: grid; grid-template-columns: 260px 1fr 280px; gap: 20px; align-items: start; margin-top: 10px; }
 
@@ -233,7 +234,7 @@
   .admin-btn.ban { color: #d00; border-color: #d00; }
   .admin-btn.delete { color: #fff; background: #d00; border-color: #d00; }
   .admin-btn.unban { color: #0a0; border-color: #0a0; }
-  
+
   .appeal-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #fafafa; }
   .appeal-card p { margin: 5px 0; font-size: 13px; }
 
@@ -288,19 +289,67 @@
   .btn-submit { background: #e0e0e0; border: 1px solid #888; padding: 8px 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
   .btn-back { background: transparent; border: 1px solid transparent; color: #888; cursor: pointer; font-size: 12px; text-decoration: underline; margin-top: 5px; text-align: center; }
   .error-msg { color: #d00; font-size: 12px; font-weight: bold; text-align: center; display: none; }
+
+  .btn-back-page {
+    margin-top: 20px;
+    padding: 6px 15px;
+    background: #e0e0e0;
+    border: 1px solid #888;
+    font-weight: bold;
+    cursor: pointer;
+    width: fit-content;
+    font-size: 12px;
+  }
+  .btn-back-page:hover { background: #ccc; }
+
+  .legal-content {
+    background: #fff;
+    padding: 25px 30px;
+    border: 1px solid #000;
+    max-width: 1000px;
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #222;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  .legal-content h1 { font-family: 'Arial Black', Impact, sans-serif; font-size: 22px; text-transform: uppercase; margin-bottom: 5px; }
+  .legal-content .updated { font-size: 11px; color: #777; margin-bottom: 20px; font-style: italic; }
+  .legal-content h2 { font-size: 18px; margin-top: 25px; margin-bottom: 10px; border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+  .legal-content h3 { font-size: 15px; margin-top: 18px; margin-bottom: 8px; }
+  .legal-content ul, .legal-content ol { margin-left: 25px; margin-bottom: 15px; }
+  .legal-content li { margin-bottom: 6px; }
+  .legal-content p { margin-bottom: 12px; }
+  .legal-content .warning-box {
+    background: #fff5f5;
+    border-left: 4px solid #d00;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-size: 13px;
+    color: #900;
+  }
+  .legal-content .note-box {
+    background: #f5f8ff;
+    border-left: 4px solid #0000ee;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-size: 13px;
+    color: #003;
+  }
 </style>
-</head>
-<body>
+</head><body>
 
   <div class="main-container" id="mainContainer">
-    
+
     <div class="top-buttons" id="top-buttons">
-      <span id="userStatus"></span> 
+      <span id="userStatus"></span>
       <button class="btn btn-register" id="btnReg" onclick="showForm('register')">Register</button>
       <button class="btn btn-login" id="btnLog" onclick="showForm('login')">Login</button>
       <button class="btn btn-exit" id="btnExit" onclick="handleExit()" style="display: none;">Exit</button>
     </div>
 
+    <!-- ========== MAIN PAGE ========== -->
     <div class="page-view active" id="mainPage">
       <div class="main-list-header">
         <div class="left-logo-group">
@@ -309,6 +358,8 @@
             <button class="nav-btn" onclick="goBack()">Home</button>
             <button class="nav-btn" onclick="showMailPage()">Mail</button>
             <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
             <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
           </div>
         </div>
@@ -326,12 +377,11 @@
           <img src="https://noikcloud.xyz/FlHwHB0">
         </div>
       </div>
-      
+
       <div class="footer-disclaimer">
         *Сайт никак не относится к плейсу Pinewood Computer Core и является фанатским сайтом...<br>Все права защищены 2026 - 2026
       </div>
-    </div>
-
+    </div>    <!-- ========== DASHBOARD PAGE ========== -->
     <div class="page-view" id="dashboardPage">
       <div class="dashboard-wrapper">
         <div class="main-list-header">
@@ -341,6 +391,8 @@
               <button class="nav-btn" onclick="goBack()">Home</button>
               <button class="nav-btn" onclick="showMailPage()">Mail</button>
               <button class="nav-btn" onclick="showConsolePage()">Console</button>
+              <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+              <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
               <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
             </div>
           </div>
@@ -400,6 +452,7 @@
       </div>
     </div>
 
+    <!-- ========== FRIENDS PAGE ========== -->
     <div class="page-view" id="friendsPage">
       <div class="main-list-header">
         <div class="left-logo-group">
@@ -408,6 +461,9 @@
             <button class="nav-btn" onclick="goBack()">Home</button>
             <button class="nav-btn" onclick="showMailPage()">Mail</button>
             <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showCatalogPage()">Catalog</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
             <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
           </div>
         </div>
@@ -422,6 +478,7 @@
       <button class="btn-back-page" onclick="goBack()">Back to Home</button>
     </div>
 
+    <!-- ========== MAIL PAGE ========== -->
     <div class="page-view" id="mailPage">
       <div class="main-list-header">
         <div class="left-logo-group">
@@ -430,6 +487,8 @@
             <button class="nav-btn" onclick="goBack()">Home</button>
             <button class="nav-btn" onclick="showMailPage()">Mail</button>
             <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
             <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
           </div>
         </div>
@@ -448,6 +507,7 @@
       <button class="btn-back-page" onclick="goBack()">Back to Home</button>
     </div>
 
+    <!-- ========== CONSOLE PAGE ========== -->
     <div class="page-view" id="consolePage">
       <div class="main-list-header">
         <div class="left-logo-group">
@@ -456,12 +516,14 @@
             <button class="nav-btn" onclick="goBack()">Home</button>
             <button class="nav-btn" onclick="showMailPage()">Mail</button>
             <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
             <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
           </div>
         </div>
         <div class="header-text">Pinewood Builders<br>Computer Core</div>
       </div>
-      
+
       <div class="console-window" onclick="document.getElementById('consoleInput').focus()">
         <div class="console-output" id="consoleOutput">
 Pinewood OS v1.0.1
@@ -473,8 +535,7 @@ Type 'help' for a list of commands.
         </div>
       </div>
       <button class="btn-back-page" onclick="goBack()">Back to Home</button>
-    </div>
-
+    </div>    <!-- ========== ADMIN PANEL PAGE ========== -->
     <div class="page-view" id="adminPanelPage">
       <div class="main-list-header">
         <div class="left-logo-group">
@@ -483,6 +544,8 @@ Type 'help' for a list of commands.
             <button class="nav-btn" onclick="goBack()">Home</button>
             <button class="nav-btn" onclick="showMailPage()">Mail</button>
             <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
             <button class="nav-btn admin-only-tab" onclick="showAdminPanel()">Admin Panel</button>
           </div>
         </div>
@@ -491,7 +554,7 @@ Type 'help' for a list of commands.
 
       <div class="admin-container">
         <h2 class="admin-section-title">User Management</h2>
-        
+
         <div style="margin-bottom: 15px; padding: 10px; background: #f0f0f0; border: 1px solid #ccc;">
           <strong>Ban Menu</strong><br>
           <p style="font-size: 12px; margin: 5px 0;">Search for a user to ban or delete:</p>
@@ -499,24 +562,246 @@ Type 'help' for a list of commands.
         </div>
 
         <div id="userListContainer"></div>
-        
+
         <h2 class="admin-section-title" style="margin-top: 30px;">Pending Appeals</h2>
         <div id="appealsContainer"></div>
       </div>
-      
+
       <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+    </div>    <!-- ========== RULES PAGE ========== -->
+    <div class="page-view" id="rulesPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+
+      <div class="legal-content">
+        <h1>Правила сайта и сообщества</h1>
+        <div class="updated">Последнее обновление: 1 ноября 2026 г.</div>
+
+        <p>Настоящие Правила регулируют использование фанатского сайта <strong>Pinewood Computer Core</strong> (далее — «Сайт»), включая регистрацию, почту, консоль, ленту статусов, апелляции и любые иные функции. Регистрируясь или используя Сайт, вы подтверждаете, что ознакомились с настоящими Правилами и согласны их соблюдать.</p>
+
+        <div class="warning-box">
+          Незнание правил не освобождает от ответственности. Нарушение правил может привести к временной или постоянной блокировке аккаунта без предварительного уведомления.
+        </div>
+
+        <h2>Раздел I. Правила для игроков и пользователей</h2>
+
+        <h3>1. Общие положения</h3>
+        <ul>
+          <li>Сайт является фанатским проектом и не связан с Roblox Corporation, Pinewood Builders или разработчиками плейса Pinewood Computer Core.</li>
+          <li>Использовать Сайт разрешается лицам, достигшим возраста, допустимого законодательством их страны для самостоятельного согласия на обработку данных. Если вы младше — используйте Сайт только с согласия родителей или опекунов.</li>
+          <li>Один пользователь может создать разумное количество аккаунтов. Создание множества аккаунтов для обхода банов, накрутки или спама запрещено.</li>
+          <li>Вы несёте ответственность за сохранность своего пароля. Не передавайте данные для входа третьим лицам.</li>
+        </ul>
+
+        <h3>2. Запрещённое поведение</h3>
+        <p>На Сайте и в любых его функциях (статусы, почта, консоль, апелляции) строго запрещается:</p>
+        <ol>
+          <li><strong>Оскорбления и травля.</strong> Унижение, угрозы, преследование, разжигание ненависти по признаку расы, национальности, религии, пола, ориентации, возраста или инвалидности.</li>
+          <li><strong>Нецензурная лексика и оскорбительный контент</strong> в никнеймах, статусах, сообщениях почты и текстах апелляций.</li>
+          <li><strong>Спам и реклама.</strong> Массовые рассылки, реклама сторонних ресурсов, навязывание услуг, «накрутка» статусов и сообщений.</li>
+          <li><strong>Попытки взлома и обхода защиты.</strong> Подбор паролей, внедрение кода, эксплуатация уязвимостей, вмешательство в работу localStorage, консоли и админ-панели.</li>
+          <li><strong>Выдача себя за других лиц</strong> — за администрацию, модераторов, известных игроков или разработчиков.</li>
+          <li><strong>Публикация личных данных</strong> (доксинг) — своих или чужих: адреса, телефоны, документы, пароли, платёжная информация.</li>
+          <li><strong>Контент 18+</strong>, сцены насилия, жестокости, пропаганда наркотиков, оружия, самоповреждения, экстремизма и терроризма.</li>
+          <li><strong>Мошенничество</strong> — обман с целью получения доступа к аккаунтам, «фишинг», фальшивые апелляции.</li>
+          <li><strong>Обход блокировок</strong> — создание новых аккаунтов после бана, использование чужих аккаунтов, попытки удалить данные о бане.</li>
+          <li><strong>Злоупотребление апелляциями</strong> — спам апелляциями, оскорбления администрации в тексте апелляции, многократная отправка после отказа без новых оснований.</li>
+          <li><strong>Нарушение работы Сайта</strong> — DoS-атаки, автоматизированные скрипты, парсинг, перегрузка серверов.</li>
+        </ol>
+
+        <h3>3. Правила общения</h3>
+        <ul>
+          <li>Общайтесь уважительно. Критика допустима, но не переходите на личности.</li>
+          <li>Не разжигайте конфликты, не провоцируйте других пользователей («троллинг»).</li>
+          <li>Публичные статусы и почта видны другим — не публикуйте там то, что не хотели бы показать всем.</li>
+          <li>Сообщения модераторов и администраторов обязательны к исполнению.</li>
+        </ul>
+
+        <h3>4. Почта, статусы и консоль</h3>
+        <ul>
+          <li>Почта и консоль доступны только авторизованным пользователям и предназначены для игрового/фанатского взаимодействия.</li>
+          <li>Запрещено использовать консоль для команд, не предусмотренных интерфейсом, для обхода ограничений и для доступа к чужим данным.</li>
+          <li>Не отправляйте через почту спам, оскорбления, ссылки на вредоносные ресурсы.</li>
+          <li>Статус не должен содержать оскорблений, рекламы, личных данных и контента 18+.</li>
+        </ul>
+
+        <h3>5. Санкции</h3>
+        <p>За нарушение правил могут применяться:</p>
+        <ul>
+          <li><strong>Предупреждение</strong> — при незначительных или первых нарушениях.</li>
+          <li><strong>Временный бан</strong> — от нескольких дней до нескольких недель в зависимости от тяжести.</li>
+          <li><strong>Постоянный бан / удаление аккаунта</strong> — при тяжких нарушениях, повторных нарушениях, взломе, доксинге, обходе бана.</li>
+          <li><strong>Отклонение апелляции</strong> — без права повторной подачи при спаме или оскорблениях.</li>
+        </ul>
+        <div class="note-box">
+          Решение о санкциях принимает администрация. Апелляция подаётся через экран блокировки. Апелляция рассматривается в разумный срок; спам-апелляции отклоняются автоматически.
+        </div>
+
+        <h3>6. Ответственность</h3>
+        <ul>
+          <li>Сайт предоставляется «как есть». Администрация не гарантирует бесперебойную работу и не несёт ответственности за возможную потерю данных (включая данные localStorage).</li>
+          <li>Администрация вправе изменять функционал, правила и настоящие условия; актуальная версия всегда доступна на этой странице.</li>
+          <li>Продолжая пользоваться Сайтом после изменений, вы принимаете новую редакцию Правил.</li>
+        </ul>
+
+        <h2>Раздел II. Правила для администраторов и модераторов</h2>
+
+        <div class="note-box">
+          Администраторы и модераторы — доверенные лица проекта. Их задача — поддерживать порядок, а не злоупотреблять полномочиями. Нарушение этих правил ведёт к снятию прав и, при необходимости, блокировке.
+        </div>
+
+        <h3>1. Общие принципы</h3>
+        <ul>
+          <li><strong>Беспристрастность.</strong> Решения принимаются по факту нарушения, а не по личной неприязни или симпатии.</li>
+          <li><strong>Соразмерность.</strong> Санкция должна соответствовать тяжести нарушения. За мелкое нарушение — предупреждение, а не постоянный бан.</li>
+          <li><strong>Конфиденциальность.</strong> Пароли, личные данные и переписка пользователей не разглашаются третьим лицам.</li>
+          <li><strong>Прозрачность.</strong> При бане указывается понятная причина. Пользователь имеет право на апелляцию.</li>
+          <li><strong>Единые стандарты.</strong> Правила одинаковы для всех, включая друзей администрации.</li>
+        </ul>
+
+        <h3>2. Запрещено администраторам и модераторам</h3>
+        <ol>
+          <li>Банить или удалять пользователей без реальной причины, из личной неприязни, ради шутки или «по приколу».</li>
+          <li>Использовать админ-доступ для чтения или изменения чужих данных без необходимости, связанной с рассмотрением нарушения.</li>
+          <li>Разглашать пароли, личные данные, содержание почты и апелляций.</li>
+          <li>Выдавать админ-права третьим лицам без согласования; передавать свой доступ.</li>
+          <li>Подделывать причины бана, «дописывать» нарушения, которых не было.</li>
+          <li>Отклонять апелляции без рассмотрения, оскорблять пользователей в ответ на апелляцию.</li>
+          <li>Участвовать в травле, спаме, накрутке, использовать служебное положение для личной выгоды.</li>
+          <li>Блокировать пользователей за критику администрации, если критика не содержит оскорблений и не нарушает правила.</li>
+          <li>Обходить установленные правила и санкции, применяя «двойные стандарты».</li>
+          <li>Удалять аккаунты без крайней необходимости (взлом, доксинг, тяжкие нарушения, обход бана).</li>
+        </ol>
+
+        <h3>3. Порядок действий при нарушении</h3>
+        <ol>
+          <li>Зафиксировать нарушение (что, где, когда, кто).</li>
+          <li>Оценить тяжесть: предупреждение → временный бан → постоянный бан.</li>
+          <li>Указать в причине бана конкретное нарушение и, при необходимости, срок.</li>
+          <li>При временном бане — указать дату разблокировки.</li>
+          <li>Апелляции рассматривать по существу: проверить факты, при сомнениях — снизить санкцию.</li>
+          <li>Принять решение и зафиксировать его; при отказе — указать причину отказа.</li>
+        </ol>
+
+        <h3>4. Работа с апелляциями</h3>
+        <ul>
+          <li>Апелляция рассматривается только по существу, без эмоций и оскорблений.</li>
+          <li>Если апелляция содержит оскорбления, спам или не относится к бану — она отклоняется.</li>
+          <li>При принятии апелляции бан снимается, запись о бане удаляется.</li>
+          <li>Повторная апелляция по тому же бану без новых оснований может быть отклонена.</li>
+        </ul>
+
+        <h3>5. Ответственность администрации</h3>
+        <ul>
+          <li>Злоупотребление правами ведёт к снятию прав и блокировке аккаунта администратора.</li>
+          <li>Жалобы на действия администрации рассматриваются вышестоящими администраторами.</li>
+          <li>Администрация вправе пересматривать решения других администраторов при наличии оснований.</li>
+        </ul>
+
+        <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+      </div>
     </div>
 
+    <!-- ========== PRIVACY PAGE ========== -->
+    <div class="page-view" id="privacyPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn" onclick="showRulesPage()">Rules</button>
+            <button class="nav-btn" onclick="showPrivacyPage()">Privacy</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+
+      <div class="legal-content">
+        <h1>Политика конфиденциальности</h1>
+        <div class="updated">Последнее обновление: 1 ноября 2026 г.</div>
+
+        <p>Настоящая Политика конфиденциальности описывает, какие данные собирает фанатский сайт <strong>Pinewood Computer Core</strong> (далее — «Сайт»), как они используются, хранятся и защищаются. Используя Сайт, вы соглашаетесь с настоящей Политикой.</p>
+
+        <h2>1. Какие данные мы собираем</h2>
+        <p>Сайт работает преимущественно локально (в браузере пользователя) и собирает минимальный объём данных:</p>
+        <ul>
+          <li><strong>Логин и пароль</strong> — при регистрации. Данные сохраняются в localStorage вашего браузера и не передаются на внешние серверы.</li>
+          <li><strong>Текущая сессия</strong> — какой пользователь вошёл (ключ <code>currentUser</code>).</li>
+          <li><strong>Данные о блокировках и апелляциях</strong> — причина, срок, текст апелляции — для работы модерации.</li>
+          <li><strong>Флаг админ-доступа</strong> — при входе через консоль.</li>
+          <li><strong>Технические данные</strong> — в отдельных случаях могут обрабатываться стандартные журналы браузера (IP, user-agent), если Сайт размещён на хостинге.</li>
+        </ul>
+
+        <h2>2. Как мы используем данные</h2>
+        <ul>
+          <li>Для аутентификации и входа в аккаунт.</li>
+          <li>Для работы почты, статусов, консоли и админ-панели.</li>
+          <li>Для рассмотрения апелляций и применения санкций.</li>
+          <li>Для предотвращения спама, взлома и обхода блокировок.</li>
+        </ul>
+
+        <h2>3. Хранение данных</h2>
+        <ul>
+          <li>Данные аккаунта (логин, пароль) хранятся в localStorage вашего браузера.</li>
+          <li>Данные о банах и апелляциях также хранятся локально.</li>
+          <li>Очистка данных браузера (cookies, localStorage) удаляет учётную запись и связанные данные.</li>
+          <li>Администрация не имеет доступа к данным, хранящимся исключительно в вашем браузере, если они не отправлены через функционал Сайта.</li>
+        </ul>
+
+        <h2>4. Передача данных третьим лицам</h2>
+        <p>Мы не продаём и не передаём ваши данные третьим лицам, за исключением случаев, предусмотренных законом, или когда это необходимо для работы Сайта (например, хостинг-провайдер).</p>
+
+        <h2>5. Безопасность</h2>
+        <ul>
+          <li>Пароли хранятся в localStorage в открытом виде в рамках данного демонстрационного проекта. Не используйте реальные пароли от других сервисов.</li>
+          <li>Рекомендуется использовать уникальный пароль для этого Сайта.</li>
+          <li>Администрация принимает разумные меры для защиты данных, но не гарантирует абсолютную безопасность.</li>
+        </ul>
+
+        <h2>6. Права пользователей</h2>
+        <ul>
+          <li>Вы вправе удалить свои данные, очистив localStorage браузера.</li>
+          <li>Вы вправе запросить удаление данных, связанных с вашим аккаунтом, через апелляцию или обращение к администрации.</li>
+          <li>Вы вправе не предоставлять данные, но тогда часть функций Сайта будет недоступна.</li>
+        </ul>
+
+        <h2>7. Дети</h2>
+        <p>Сайт не предназначен для детей младше возраста, допустимого законодательством их страны для самостоятельного согласия на обработку данных. Если вы младше — используйте Сайт только с согласия родителей или опекунов.</p>
+
+        <h2>8. Изменения Политики</h2>
+        <p>Администрация вправе изменять настоящую Политику. Актуальная версия всегда доступна на этой странице. Продолжая пользоваться Сайтом после изменений, вы принимаете новую редакцию.</p>
+
+        <h2>9. Контакты</h2>
+        <p>По вопросам конфиденциальности обращайтесь к администрации через апелляцию или почту на Сайте.</p>
+
+        <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+      </div>
+    </div>    <!-- ========== BAN OVERLAY ========== -->
     <div class="ban-overlay" id="banOverlay">
       <div class="ban-box">
         <h1 id="banTitle">Banned for 7 Days</h1>
-        
+
         <p>Our content monitors have determined that your behavior at ROBLOX has been in violation of our Terms of Service. We will terminate your account if you do not abide by the rules.</p>
-        
+
         <p>Reviewed: <span id="banReviewedDate"></span></p>
-        
+
         <p>Moderator Note: <span id="banModNote">This is called "trolling". You are trying to pick a fight on the forum, and that is not permitted.</span></p>
-        
+
         <div class="ban-reason-box">
           <strong>Reason: Inappropriate</strong>
           <strong>Offensive Items:</strong>
@@ -526,7 +811,7 @@ Type 'help' for a list of commands.
         <p class="ban-footer">
           Please abide by the <a href="#" onclick="return false;">ROBLOX Community Guidelines</a> so that ROBLOX can be fun for users of all ages.
         </p>
-        
+
         <p>Your account has been disabled for <span id="banDurationText"></span>. You may re-activate it after <span id="banReactivateDate"></span></p>
 
         <div class="ban-appeal-section">
@@ -539,6 +824,7 @@ Type 'help' for a list of commands.
       </div>
     </div>
 
+    <!-- ========== REGISTER FORM ========== -->
     <div class="form-container" id="registerPage">
       <div class="form-box">
         <div class="form-title">Регистрация</div>
@@ -550,6 +836,7 @@ Type 'help' for a list of commands.
       </div>
     </div>
 
+    <!-- ========== LOGIN FORM ========== -->
     <div class="form-container" id="loginPage">
       <div class="form-box">
         <div class="form-title">Вход</div>
@@ -561,12 +848,10 @@ Type 'help' for a list of commands.
       </div>
     </div>
 
-  </div>
-
-  <script>
+  </div>  <script>
     let currentUser = localStorage.getItem('currentUser');
     let isAdmin = false;
-    let consoleState = 'normal'; 
+    let consoleState = 'normal';
     let tempAdminUser = '';
 
     const mainPage = document.getElementById('mainPage');
@@ -575,43 +860,54 @@ Type 'help' for a list of commands.
     const mailPage = document.getElementById('mailPage');
     const consolePage = document.getElementById('consolePage');
     const adminPanelPage = document.getElementById('adminPanelPage');
+    const rulesPage = document.getElementById('rulesPage');
+    const privacyPage = document.getElementById('privacyPage');
     const registerPage = document.getElementById('registerPage');
     const loginPage = document.getElementById('loginPage');
     const banOverlay = document.getElementById('banOverlay');
-    
+
+    /* ---------- Навигация ---------- */
+    function hideAllPages() {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      registerPage.classList.remove('active');
+      loginPage.classList.remove('active');
+    }
+
     function showForm(type) {
-      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active');
-      mailPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      hideAllPages();
       document.getElementById('top-buttons').style.display = 'none';
       if (type === 'register') registerPage.classList.add('active');
       else if (type === 'login') loginPage.classList.add('active');
     }
 
-    function showFriendsPage() { dashboardPage.classList.remove('active'); friendsPage.classList.add('active'); }
-    
-    // ЗАЩИТА ПОЧТЫ (Требуется вход)
+    function showFriendsPage() {
+      hideAllPages();
+      friendsPage.classList.add('active');
+      document.getElementById('top-buttons').style.display = 'flex';
+    }
+
     function showMailPage() {
       if (!currentUser) {
         alert('Ошибка доступа: Пожалуйста, войдите в аккаунт, чтобы проверить почту.');
         return;
       }
-      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      hideAllPages();
+      document.getElementById('top-buttons').style.display = 'flex';
       mailPage.classList.add('active');
-      renderMail(); 
+      renderMail();
     }
 
-    // ЗАЩИТА КОНСОЛИ (Требуется вход)
     function showConsolePage() {
       if (!currentUser) {
         alert('Ошибка доступа: Пожалуйста, войдите в аккаунт, чтобы получить доступ к консоли.');
         return;
       }
-      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); mailPage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      hideAllPages();
+      document.getElementById('top-buttons').style.display = 'flex';
       consolePage.classList.add('active');
       document.getElementById('consoleInput').focus();
     }
 
-    // ЗАЩИТА АДМИНКИ (Требуется вход и права)
     function showAdminPanel() {
       if (!currentUser) {
         alert('Ошибка доступа: Пожалуйста, войдите в аккаунт.');
@@ -619,26 +915,42 @@ Type 'help' for a list of commands.
       }
       const hasAdminAccess = currentUser === 'Administrator' || localStorage.getItem('admin_access_' + currentUser) === 'true';
       if (!hasAdminAccess) return;
-      
-      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); mailPage.classList.remove('active'); consolePage.classList.remove('active');
+
+      hideAllPages();
+      document.getElementById('top-buttons').style.display = 'flex';
       adminPanelPage.classList.add('active');
       document.getElementById('adminSearch').value = '';
       renderAdminPanel('');
     }
 
+    function showRulesPage() {
+      hideAllPages();
+      document.getElementById('top-buttons').style.display = 'flex';
+      rulesPage.classList.add('active');
+    }
+
+    function showPrivacyPage() {
+      hideAllPages();
+      document.getElementById('top-buttons').style.display = 'flex';
+      privacyPage.classList.add('active');
+    }
+
     function goBack() {
-      registerPage.classList.remove('active'); loginPage.classList.remove('active');
-      friendsPage.classList.remove('active'); mailPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
-      document.getElementById('regError').style.display = 'none'; document.getElementById('logError').style.display = 'none';
+      registerPage.classList.remove('active');
+      loginPage.classList.remove('active');
+      hideAllPages();
+      document.getElementById('regError').style.display = 'none';
+      document.getElementById('logError').style.display = 'none';
       document.getElementById('top-buttons').style.display = 'flex';
       updateUI();
     }
 
+    /* ---------- Регистрация / Вход ---------- */
     function handleRegister() {
       const user = document.getElementById('regUser').value.trim();
       const pass = document.getElementById('regPass').value.trim();
       const error = document.getElementById('regError');
-      if (!user || !pass) { error.style.display = 'block'; return; }
+      if (!user || !pass) { error.textContent = 'Заполните все поля!'; error.style.display = 'block'; return; }
       if (localStorage.getItem('user_' + user)) {
         error.textContent = 'Этот логин уже занят!'; error.style.display = 'block'; return;
       }
@@ -652,7 +964,7 @@ Type 'help' for a list of commands.
       const pass = document.getElementById('logPass').value.trim();
       const error = document.getElementById('logError');
       if (!user || !pass) { error.style.display = 'block'; return; }
-      
+
       const banData = localStorage.getItem('ban_' + user);
       if (banData) {
         const ban = JSON.parse(banData);
@@ -681,25 +993,29 @@ Type 'help' for a list of commands.
       goBack();
     }
 
+    /* ---------- UI update ---------- */
     function updateUI() {
       currentUser = localStorage.getItem('currentUser');
       const adminBtns = document.querySelectorAll('.admin-only-tab');
-      
+
       if (currentUser) {
         const banData = localStorage.getItem('ban_' + currentUser);
         if (banData) {
           const ban = JSON.parse(banData);
           if (ban.type === 'perm') { showBanScreen(currentUser, ban.reason, 'Навсегда'); return; }
-          if (ban.type === 'temp' && Date.now() < ban.until) { 
+          if (ban.type === 'temp' && Date.now() < ban.until) {
             const daysLeft = Math.ceil((ban.until - Date.now()) / (1000 * 60 * 60 * 24));
-            showBanScreen(currentUser, ban.reason, daysLeft + ' Days', ban.until); return; 
+            showBanScreen(currentUser, ban.reason, daysLeft + ' Days', ban.until); return;
           }
         }
 
-        btnReg.style.display = 'none'; btnLog.style.display = 'none'; btnExit.style.display = 'block';
-        userStatus.style.display = 'block'; userStatus.textContent = 'Вы вошли как: ' + currentUser;
+        document.getElementById('btnReg').style.display = 'none';
+        document.getElementById('btnLog').style.display = 'none';
+        document.getElementById('btnExit').style.display = 'block';
+        document.getElementById('userStatus').style.display = 'block';
+        document.getElementById('userStatus').textContent = 'Вы вошли как: ' + currentUser;
         document.getElementById('profileUsername').textContent = currentUser;
-        
+
         const hasAdminAccess = currentUser === 'Administrator' || localStorage.getItem('admin_access_' + currentUser) === 'true';
         if (hasAdminAccess) {
           adminBtns.forEach(btn => btn.style.display = 'block');
@@ -707,23 +1023,27 @@ Type 'help' for a list of commands.
           adminBtns.forEach(btn => btn.style.display = 'none');
         }
 
+        hideAllPages();
         dashboardPage.classList.add('active');
       } else {
-        btnReg.style.display = 'block'; btnLog.style.display = 'block'; btnExit.style.display = 'none';
-        userStatus.style.display = 'none';
+        document.getElementById('btnReg').style.display = 'block';
+        document.getElementById('btnLog').style.display = 'block';
+        document.getElementById('btnExit').style.display = 'none';
+        document.getElementById('userStatus').style.display = 'none';
         adminBtns.forEach(btn => btn.style.display = 'none');
+        hideAllPages();
         mainPage.classList.add('active');
       }
     }
 
+    /* ---------- Бан ---------- */
     function showBanScreen(user, reason, durationText, untilDate = null) {
-      localStorage.removeItem('currentUser'); 
+      localStorage.removeItem('currentUser');
       currentUser = null;
       document.getElementById('top-buttons').style.display = 'none';
-      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
-      
+      hideAllPages();
       banOverlay.style.display = 'flex';
-      
+
       const now = new Date();
       const reviewedStr = now.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-US');
       document.getElementById('banReviewedDate').textContent = reviewedStr;
@@ -735,35 +1055,35 @@ Type 'help' for a list of commands.
       } else {
         document.getElementById('banTitle').textContent = `Banned for ${durationText}`;
         document.getElementById('banDurationText').textContent = durationText;
-        
+
         const reactivate = new Date(untilDate || (now.getTime() + parseInt(durationText) * 24 * 60 * 60 * 1000));
         const reactivateStr = reactivate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) + ' ' + reactivate.toLocaleTimeString('en-US');
         document.getElementById('banReactivateDate').textContent = reactivateStr;
       }
 
       document.getElementById('banReasonText').textContent = reason || 'Inappropriate behavior.';
-      
-      banOverlay.dataset.user = user; 
+      banOverlay.dataset.user = user;
     }
 
     function submitAppeal() {
       const user = banOverlay.dataset.user;
       const text = document.getElementById('appealInput').value.trim();
       if (!text) { alert('Напишите текст апелляции!'); return; }
-      
+
       const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
       appeals.push({ user: user, text: text, date: new Date().toLocaleString('ru-RU') });
       localStorage.setItem('appeals', JSON.stringify(appeals));
-      
+
       alert('Апелляция отправлена администратору.');
       document.getElementById('appealInput').value = '';
       handleExit();
     }
 
+    /* ---------- Почта ---------- */
     function renderMail() {
       const container = document.getElementById('mailContainer');
       container.innerHTML = '<div class="mail-toolbar">Inbox</div>';
-      
+
       let mails = [
         { sender: 'MrKohmes', subject: 'Пора на работу!', date: '10:42 AM', body: 'Привет! Ты опять проспал? Система охлаждения суперкомпьютера опять барахлит, а ты спишь! Быстро вставай и беги в комплекс.' },
         { sender: 'dkcrystal', subject: 'Где тебя носит?!', date: '09:15 AM', body: 'Слушай, мы уже 20 минут стоим у входа в Console. Ты где? У нас тут ошибка в коде!' }
@@ -805,6 +1125,7 @@ Type 'help' for a list of commands.
       if (!isExp) el.classList.add('expanded');
     }
 
+    /* ---------- Консоль ---------- */
     const consoleInput = document.getElementById('consoleInput');
     const consoleOutput = document.getElementById('consoleOutput');
 
@@ -812,13 +1133,13 @@ Type 'help' for a list of commands.
       if (e.key === 'Enter') {
         const val = this.value.trim();
         if (!val) return;
-        
+
         if (consoleState === 'iss_pass') {
           printLine('> ********');
         } else {
           printLine(`> ${val}`);
         }
-        
+
         this.value = '';
         processCommand(val);
       }
@@ -869,12 +1190,14 @@ Type 'help' for a list of commands.
             printLine('  delete <user> <reason>');
           }
           break;
-        case 'clear': consoleOutput.innerHTML = ''; break;
+        case 'clear':
+          consoleOutput.innerHTML = '';
+          break;
         case 'iss':
           if (isAdmin || localStorage.getItem('admin_access_' + currentUser) === 'true') {
             printLine('Already logged in.', '#ff0');
           } else {
-            printLine('SYSTEM: Enter Admin Username:'); 
+            printLine('SYSTEM: Enter Admin Username:');
             consoleState = 'iss_user';
           }
           break;
@@ -895,20 +1218,22 @@ Type 'help' for a list of commands.
           localStorage.setItem('ban_' + targetDel, JSON.stringify({ type: 'perm', reason: reasonDel }));
           printLine(`User ${targetDel} deleted.`, '#f00');
           break;
-        default: printLine('Unknown command.', '#f00');
+        default:
+          printLine('Unknown command.', '#f00');
       }
     }
 
+    /* ---------- Админ-панель ---------- */
     function renderAdminPanel(searchQuery = '') {
       const userList = document.getElementById('userListContainer');
       let users = Object.keys(localStorage).filter(k => k.startsWith('user_')).map(k => k.replace('user_', ''));
-      
+
       if (searchQuery) {
         users = users.filter(u => u.toLowerCase().includes(searchQuery.toLowerCase()));
       }
 
       let html = '<table class="admin-table"><tr><th>Username</th><th>Status</th><th>Actions</th></tr>';
-      
+
       if (users.length === 0) {
         html += '<tr><td colspan="3" style="text-align:center;">No users found.</td></tr>';
       } else {
@@ -987,6 +1312,31 @@ Type 'help' for a list of commands.
       localStorage.setItem('appeals', JSON.stringify(appeals));
     }
 
+    /* ---------- Статусы (dashboard) ---------- */
+    function postStatus() {
+      const input = document.getElementById('statusInput');
+      const text = input.value.trim();
+      if (!text) return;
+      if (!currentUser) { alert('Войдите, чтобы публиковать статус.'); return; }
+
+      const feed = document.getElementById('feedContainer');
+      const div = document.createElement('div');
+      div.className = 'feed-item';
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-US');
+      div.innerHTML = `
+        <img src="https://noikcloud.xyz/kdqSQqi" class="feed-avatar">
+        <div class="feed-content">
+          <a href="#" class="feed-author">${currentUser}</a>
+          <div class="feed-text">${text}</div>
+          <div class="feed-date">${dateStr}</div>
+        </div>
+      `;
+      feed.prepend(div);
+      input.value = '';
+    }
+
+    /* ---------- Старт ---------- */
     updateUI();
   </script>
 
