@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pinewood Computer Core</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; overflow:hidden; background: #000; font-family: 'Tahoma', 'Arial', sans-serif; }
+
+  body {
+    background-image: url("https://noikcloud.xyz/9DdHcCr");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-container {
+    position: relative;
+    width: 90vw;           
+    height: 90vh;          
+    background: #e3e3e3; 
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8); 
+    overflow: hidden; 
+    border: 1px solid #000;
+  }
+
+  .main-list-header {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+  }
+
+  .left-logo-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+    align-items: flex-start;
+  }
+
+  .img-logo { height: 100px; width: auto; object-fit: contain; }
+
+  .header-text {
+    font-family: 'Arial Black', Impact, sans-serif;
+    font-size: 24px;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    margin-left: 0;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.8), 2px 2px 0px rgba(0,0,0,0.2); 
+  }
+
+  .nav-tabs {
+    display: flex;
+    background: #e0e0e0;
+    border: 1px solid #a0a0a0;
+    padding: 2px 4px;
+    border-radius: 0;
+    gap: 3px;
+    width: fit-content;
+  }
+
+  .nav-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+    background: #f5f5f5;
+    border: 1px solid #888;
+    cursor: pointer;
+    transition: 0.05s;
+  }
+
+  .nav-btn:hover {
+    background: #fff;
+    border-color: #ff0000;
+    color: #ff0000;
+    box-shadow: inset 0 0 5px #ff0000;
+  }
+
+  .top-buttons {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .btn { padding: 4px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 0; transition: 0.05s; }
+  .btn-register { background: #f0f0f0; color: #000; border: 1px solid #a0a0a0; }
+  .btn-login { background: #222; color: #fff; border: 1px solid #444; }
+  .btn-exit { background: #f0f0f0; color: #d00; border: 1px solid #a0a0a0; text-transform: uppercase; }
+
+  .btn-register:hover, .btn-login:hover, .btn-exit:hover { border-color: #ff0000; box-shadow: 0 0 5px #ff0000, inset 0 0 5px #ff0000; }
+  .btn-register:hover { color: #ff0000; }
+  .btn-login:hover { background: #400; color: #fff; }
+  .btn-exit:hover { background: #d00; color: #fff; }
+
+  #userStatus {
+    display: none; 
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 10px;
+    background: #fff;
+    padding: 4px 8px;
+    border: 1px solid #000;
+  }
+
+  .page-view {
+    display: none; 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    background: #e3e3e3;
+    padding: 30px 40px;
+    overflow-y: auto;
+  }
+
+  .page-view.active { display: flex; flex-direction: column; }
+
+  .content-area { max-width: 1000px; background: #fff; padding: 20px; border: 1px solid #000; margin-top: 20px; }
+  .article-title { font-family: 'Arial Black', Impact, sans-serif; font-size: 24px; color: #111; text-transform: uppercase; margin-bottom: 15px; border-bottom: 2px solid #a0a0a0; padding-bottom: 5px; }
+  .article-text { font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 25px; }
+  .image-gallery { display: flex; gap: 15px; flex-wrap: wrap; }
+  .image-gallery img { height: 180px; width: auto; border: 2px solid #888; box-shadow: 3px 3px 0px rgba(0,0,0,0.3); object-fit: cover; transition: transform 0.1s; }
+  .image-gallery img:hover { transform: scale(1.02); border-color: #ff0000; box-shadow: 3px 3px 0px #ff0000; }
+
+  .footer-disclaimer { position: absolute; bottom: 15px; right: 20px; font-size: 10px; color: #777; text-align: right; z-index: 15; }
+
+  #dashboardPage, #friendsPage, #mailPage, #consolePage, #adminPanelPage { padding: 20px 30px; }
+  .dashboard-wrapper { width: 100%; }
+  .dashboard-content { display: grid; grid-template-columns: 260px 1fr 280px; gap: 20px; align-items: start; margin-top: 10px; }
+
+  .panel { background: #ffffff; border: 1px solid #000000; display: flex; flex-direction: column; margin-bottom: 15px; }
+  .panel-header { background: #e3e3e3; border-bottom: 1px solid #000000; padding: 3px 6px; font-size: 13px; font-weight: bold; color: #000; display: flex; justify-content: space-between; }
+  .panel-header a { color: #0000ee; text-decoration: underline; font-size: 10px; font-weight: normal; cursor: pointer; }
+
+  .col-left { display: flex; flex-direction: column; }
+  .avatar-main-box { padding: 10px; text-align: center; }
+  .avatar-main-box img { width: 140px; height: 140px; object-fit: contain; border: none; }
+  .username-title { color: #0000ee; font-size: 15px; font-weight: bold; text-decoration: none; display: block; margin-top: 5px; text-align: center; }
+
+  .friend-item { display: flex; padding: 5px; border-bottom: 1px solid #ccc; gap: 5px; align-items: center; }
+  .friend-item:last-child { border-bottom: none; }
+  .friend-avatar { width: 45px; height: 45px; object-fit: contain; border: none; }
+  .friend-info { display: flex; flex-direction: column; }
+  .friend-name { color: #0000ee; font-weight: bold; font-size: 11px; text-decoration: none; }
+  .friend-status { color: #555; font-size: 10px; }
+
+  .col-center { display: flex; flex-direction: column; }
+  .status-box { padding: 5px; display: flex; gap: 5px; }
+  .status-box input { flex-grow: 1; padding: 4px 5px; border: 1px solid #888; font-family: inherit; font-size: 12px; }
+  .status-box button { padding: 3px 10px; background: #e3e3e3; border: 1px solid #888; font-size: 12px; cursor: pointer; font-weight: bold; }
+  .status-box button:hover { background: #ccc; }
+
+  .feed-item { display: flex; padding: 10px; border-bottom: 1px solid #ccc; gap: 10px; }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-avatar { width: 45px; height: 45px; object-fit: contain; border: none; }
+  .feed-content { display: flex; flex-direction: column; }
+  .feed-author { color: #0000ee; font-weight: bold; font-size: 12px; text-decoration: none; }
+  .feed-text { font-size: 12px; margin: 2px 0; }
+  .feed-date { color: #777; font-size: 10px; }
+
+  .col-right { display: flex; flex-direction: column; }
+  .fav-game-box { padding: 5px; }
+  .fav-game-img { width: 100%; height: 130px; object-fit: cover; border: 1px solid #000; transition: 0.1s; }
+  .fav-game-img:hover { opacity: 0.8; border-color: #ff0000; }
+  .fav-game-title { color: #0000ee; font-weight: bold; font-size: 12px; text-decoration: none; display: block; margin-top: 5px; }
+  .fav-game-players { color: #d00; font-size: 11px; }
+
+  .quick-links { padding: 10px; font-size: 12px; }
+  .quick-links ul { padding-left: 20px; margin: 0; }
+  .quick-links li { margin-bottom: 4px; }
+  .quick-links a { color: #0000ee; text-decoration: none; }
+
+  .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; background: #fff; padding: 20px; border: 1px solid #000; margin-top: 20px; }
+  .friend-card-full { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid #ccc; background: #f9f9f9; }
+  .friend-card-full img { width: 60px; height: 60px; object-fit: contain; }
+  .friend-card-full .friend-info-full { display: flex; flex-direction: column; }
+  .friend-card-full .friend-name-full { color: #0000ee; font-weight: bold; font-size: 13px; text-decoration: none; }
+  .friend-card-full .friend-status-full { color: #555; font-size: 11px; }
+
+  .mail-layout { display: flex; background: #fff; border: 1px solid #000; height: calc(100% - 80px); }
+  .mail-sidebar { width: 200px; background: #f5f5f5; border-right: 1px solid #ccc; padding: 15px 10px; display: flex; flex-direction: column; gap: 5px; }
+  .mail-folder { padding: 8px 12px; font-size: 13px; color: #333; cursor: pointer; border: 1px solid transparent; font-weight: bold; }
+  .mail-folder:hover { background: #e8e8e8; }
+  .mail-folder.active { background: #fff; border: 1px solid #ccc; border-right: none; color: #d00; }
+  .mail-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+  .mail-toolbar { padding: 8px 15px; background: #f0f0f0; border-bottom: 1px solid #ccc; font-size: 12px; font-weight: bold; color: #333; }
+  .mail-item { border-bottom: 1px solid #e0e0e0; cursor: pointer; transition: 0.1s; }
+  .mail-item:hover { background: #fafafa; }
+  .mail-item.unread { font-weight: bold; background: #fff; }
+  .mail-item.unread .mail-subject { color: #000; }
+  .mail-item.unread .mail-sender { color: #0000ee; }
+  .mail-summary { display: flex; align-items: center; padding: 10px 15px; gap: 15px; }
+  .mail-sender { width: 150px; font-size: 12px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-subject { flex-grow: 1; font-size: 12px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-date { font-size: 11px; color: #777; width: 80px; text-align: right; }
+  .mail-detail { display: none; padding: 20px; background: #fff; border-top: 1px dashed #ccc; font-size: 13px; line-height: 1.5; color: #222; }
+  .mail-item.expanded .mail-detail { display: block; }
+  .mail-item.expanded { background: #fff; }
+
+  .console-window {
+    background: #000; color: #0f0; font-family: 'Courier New', monospace;
+    padding: 15px; flex-grow: 1; overflow-y: auto;
+    border: 2px solid #555; box-shadow: inset 0 0 10px rgba(0,255,0,0.2);
+    display: flex; flex-direction: column; font-size: 14px; line-height: 1.4;
+  }
+  .console-output { flex-grow: 1; white-space: pre-wrap; }
+  .console-input-line { display: flex; align-items: center; margin-top: 10px; }
+  .console-input-line span { margin-right: 5px; }
+  .console-input { background: transparent; border: none; color: #0f0; font-family: inherit; font-size: 14px; outline: none; flex-grow: 1; }
+
+  .admin-container { background: #fff; padding: 20px; border: 1px solid #000; flex-grow: 1; overflow-y: auto; }
+  .admin-section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+  .admin-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+  .admin-table th, .admin-table td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 13px; }
+  .admin-table th { background: #eee; }
+  .admin-btn { padding: 3px 8px; font-size: 11px; font-weight: bold; cursor: pointer; border: 1px solid #888; background: #f0f0f0; margin-right: 5px; }
+  .admin-btn:hover { background: #ddd; }
+  .admin-btn.ban { color: #d00; border-color: #d00; }
+  .admin-btn.delete { color: #fff; background: #d00; border-color: #d00; }
+  .admin-btn.unban { color: #0a0; border-color: #0a0; }
+  
+  .appeal-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #fafafa; }
+  .appeal-card p { margin: 5px 0; font-size: 13px; }
+
+  .ban-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9999; display: none; justify-content: center; align-items: center;
+    background: repeating-linear-gradient(
+      45deg,
+      #d0d0d0,
+      #d0d0d0 15px,
+      #e0e0e0 15px,
+      #e0e0e0 30px
+    );
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .ban-box {
+    background: #ffffff;
+    border: 2px solid #000000;
+    padding: 25px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .ban-box h1 { font-size: 22px; text-align: center; margin-bottom: 20px; font-weight: bold; }
+  .ban-box p { margin-bottom: 10px; }
+  .ban-reason-box { border: 1px solid #000; padding: 10px; margin: 15px 0; background: #fff; }
+  .ban-reason-box strong { display: block; margin-bottom: 5px; }
+  .ban-reason-text { font-style: italic; color: #333; }
+  .ban-footer { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 15px; }
+  .ban-footer a { color: #0000ee; text-decoration: underline; }
+
+  .ban-appeal-section { margin-top: 20px; padding: 15px; background: #f5f5f5; border: 1px solid #ccc; text-align: center; }
+  .ban-appeal-section textarea { width: 100%; height: 80px; padding: 5px; border: 1px solid #888; font-family: inherit; font-size: 12px; margin-bottom: 10px; resize: none; }
+  .ban-appeal-section button { padding: 5px 15px; background: #e0e0e0; border: 1px solid #888; font-weight: bold; cursor: pointer; margin: 0 5px; }
+  .ban-appeal-section button:hover { background: #ccc; }
+
+  .form-container { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; background: #ffffff; z-index: 20; }
+  .form-container.active { display: flex; }
+  .form-box { width: 320px; display: flex; flex-direction: column; gap: 15px; }
+  .form-title { font-size: 18px; font-weight: bold; color: #333; text-align: center; margin-bottom: 10px; }
+  .input-group { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+  .input-group label { font-size: 12px; font-weight: bold; color: #333; }
+  .input-group input { padding: 8px; border: 1px solid #aaa; font-family: inherit; font-size: 13px; outline: none; }
+  .input-group input:focus { border-color: #ff0000; }
+  .btn-submit { background: #e0e0e0; border: 1px solid #888; padding: 8px 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+  .btn-back { background: transparent; border: 1px solid transparent; color: #888; cursor: pointer; font-size: 12px; text-decoration: underline; margin-top: 5px; text-align: center; }
+  .error-msg { color: #d00; font-size: 12px; font-weight: bold; text-align: center; display: none; }
+</style>
+</head>
+<body>
+
+  <div class="main-container" id="mainContainer">
+    
+    <div class="top-buttons" id="top-buttons">
+      <span id="userStatus"></span> 
+      <button class="btn btn-register" id="btnReg" onclick="showForm('register')">Register</button>
+      <button class="btn btn-login" id="btnLog" onclick="showForm('login')">Login</button>
+      <button class="btn btn-exit" id="btnExit" onclick="handleExit()" style="display: none;">Exit</button>
+    </div>
+
+    <div class="page-view active" id="mainPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+
+      <div class="content-area">
+        <h1 class="article-title">Pinewood Computer Core</h1>
+        <p class="article-text">
+          Исследуйте секретный подземный комплекс, который вот-вот взорвется! Ваша миссия — предотвратить перегрев суперкомпьютера. Исследуйте каждый уголок комплекса, переживайте катастрофы, нажимайте каждую кнопку, раскрывайте секреты, и, возможно, вам удастся выбраться живым!
+        </p>
+        <div class="image-gallery">
+          <img src="https://noikcloud.xyz/RvKjdZF">
+          <img src="https://noikcloud.xyz/7MwSgQO">
+          <img src="https://noikcloud.xyz/FlHwHB0">
+        </div>
+      </div>
+      
+      <div class="footer-disclaimer">
+        *Сайт никак не относится к плейсу Pinewood Computer Core и является фанатским сайтом...<br>Все права защищены 2026 - 2026
+      </div>
+    </div>
+
+    <div class="page-view" id="dashboardPage">
+      <div class="dashboard-wrapper">
+        <div class="main-list-header">
+          <div class="left-logo-group">
+            <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+            <div class="nav-tabs">
+              <button class="nav-btn" onclick="goBack()">Home</button>
+              <button class="nav-btn" onclick="showMailPage()">Mail</button>
+              <button class="nav-btn" onclick="showConsolePage()">Console</button>
+              <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+            </div>
+          </div>
+          <div class="header-text">Pinewood Builders<br>Computer Core</div>
+        </div>
+
+        <div class="dashboard-content">
+          <div class="col-left">
+            <div class="panel">
+              <div class="avatar-main-box">
+                <img src="https://noikcloud.xyz/kdqSQqi" alt="Avatar">
+                <a href="#" class="username-title" id="profileUsername">User</a>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">My Friends <a onclick="showFriendsPage()">See All</a></div>
+              <div class="panel-content" style="padding:0;">
+                <div class="friend-item"><img src="https://noikcloud.xyz/IL3vJeZ" class="friend-avatar"><div class="friend-info"><a href="#" class="friend-name">dkcrystal</a><span class="friend-status">Offline</span></div></div>
+                <div class="friend-item"><img src="https://noikcloud.xyz/XWnau4P" class="friend-avatar"><div class="friend-info"><a href="#" class="friend-name">Leafyee</a><span class="friend-status">Offline</span></div></div>
+                <div class="friend-item"><img src="https://noikcloud.xyz/v5adTxS" class="friend-avatar"><div class="friend-info"><a href="#" class="friend-name">igryTv</a><span class="friend-status">Offline</span></div></div>
+                <div class="friend-item"><img src="https://noikcloud.xyz/IL3vJeZ" class="friend-avatar"><div class="friend-info"><a href="#" class="friend-name">Max673857</a><span class="friend-status">Offline</span></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-center">
+            <div class="panel">
+              <div class="status-box">
+                <input type="text" id="statusInput" placeholder="Who i am?">
+                <button onclick="postStatus()">Update Status</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">My Feed</div>
+              <div class="panel-content" id="feedContainer" style="padding:0;">
+                <div class="feed-item">
+                  <img src="https://noikcloud.xyz/IL3vJeZ" class="feed-avatar">
+                  <div class="feed-content"><a href="#" class="feed-author">dkcrystal</a><div class="feed-text">What</div><div class="feed-date">13 Oct 2026 12:40 PM</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="panel">
+              <div class="panel-header">Favorite Games <a href="#">See All</a></div>
+              <div class="fav-game-box">
+                <a href="https://www.roblox.com/games/17541193/Pinewood-Computer-Core" target="_blank"><img src="https://noikcloud.xyz/KflRk31" class="fav-game-img"></a>
+                <a href="https://www.roblox.com/games/17541193/Pinewood-Computer-Core" target="_blank" class="fav-game-title">Pinewood Computer Core</a>
+                <div class="fav-game-players">0 players online</div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">Quick Links</div>
+              <div class="quick-links"><ul><li><a href="#">Create an Item</a></li><li><a href="#">Edit your character</a></li><li><a href="#">Browse groups</a></li><li><a href="#">Trades</a></li><li><a href="#">Messages</a></li><li><a href="#">Transactions</a></li><li><a href="#">Account settings</a></li></ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-view" id="friendsPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+      <h2 style="font-family:'Arial Black'; font-size:20px; margin-bottom:10px;">All Friends</h2>
+      <div class="friends-grid">
+        <div class="friend-card-full"><img src="https://noikcloud.xyz/IL3vJeZ"><div class="friend-info-full"><a href="#" class="friend-name-full">dkcrystal</a><span class="friend-status-full">Offline</span></div></div>
+        <div class="friend-card-full"><img src="https://noikcloud.xyz/XWnau4P"><div class="friend-info-full"><a href="#" class="friend-name-full">Leafyee</a><span class="friend-status-full">Offline</span></div></div>
+        <div class="friend-card-full"><img src="https://noikcloud.xyz/v5adTxS"><div class="friend-info-full"><a href="#" class="friend-name-full">igryTv</a><span class="friend-status-full">Offline</span></div></div>
+      </div>
+      <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <div class="page-view" id="mailPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+      <div class="mail-layout">
+        <div class="mail-sidebar">
+          <div class="mail-folder active">Inbox</div>
+          <div class="mail-folder">Sent</div>
+          <div class="mail-folder">Trash</div>
+        </div>
+        <div class="mail-content" id="mailContainer">
+          <div class="mail-toolbar">Inbox</div>
+        </div>
+      </div>
+      <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <div class="page-view" id="consolePage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn admin-only-tab" style="display:none;" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+      
+      <div class="console-window" onclick="document.getElementById('consoleInput').focus()">
+        <div class="console-output" id="consoleOutput">
+Pinewood OS v1.0.1
+Type 'help' for a list of commands.
+        </div>
+        <div class="console-input-line">
+          <span id="consolePrompt">&gt;</span>
+          <input type="text" class="console-input" id="consoleInput" autocomplete="off">
+        </div>
+      </div>
+      <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <div class="page-view" id="adminPanelPage">
+      <div class="main-list-header">
+        <div class="left-logo-group">
+          <img src="https://noikcloud.xyz/y2Ny2f2" class="img-logo">
+          <div class="nav-tabs">
+            <button class="nav-btn" onclick="goBack()">Home</button>
+            <button class="nav-btn" onclick="showMailPage()">Mail</button>
+            <button class="nav-btn" onclick="showConsolePage()">Console</button>
+            <button class="nav-btn admin-only-tab" onclick="showAdminPanel()">Admin Panel</button>
+          </div>
+        </div>
+        <div class="header-text">Pinewood Builders<br>Computer Core</div>
+      </div>
+
+      <div class="admin-container">
+        <h2 class="admin-section-title">User Management</h2>
+        
+        <div style="margin-bottom: 15px; padding: 10px; background: #f0f0f0; border: 1px solid #ccc;">
+          <strong>Ban Menu</strong><br>
+          <p style="font-size: 12px; margin: 5px 0;">Search for a user to ban or delete:</p>
+          <input type="text" id="adminSearch" placeholder="Enter username..." oninput="renderAdminPanel(this.value)" style="padding: 5px; width: 300px; border: 1px solid #888;">
+        </div>
+
+        <div id="userListContainer"></div>
+        
+        <h2 class="admin-section-title" style="margin-top: 30px;">Pending Appeals</h2>
+        <div id="appealsContainer"></div>
+      </div>
+      
+      <button class="btn-back-page" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <div class="ban-overlay" id="banOverlay">
+      <div class="ban-box">
+        <h1 id="banTitle">Banned for 7 Days</h1>
+        
+        <p>Our content monitors have determined that your behavior at ROBLOX has been in violation of our Terms of Service. We will terminate your account if you do not abide by the rules.</p>
+        
+        <p>Reviewed: <span id="banReviewedDate"></span></p>
+        
+        <p>Moderator Note: <span id="banModNote">This is called "trolling". You are trying to pick a fight on the forum, and that is not permitted.</span></p>
+        
+        <div class="ban-reason-box">
+          <strong>Reason: Inappropriate</strong>
+          <strong>Offensive Items:</strong>
+          <div class="ban-reason-text" id="banReasonText"></div>
+        </div>
+
+        <p class="ban-footer">
+          Please abide by the <a href="#" onclick="return false;">ROBLOX Community Guidelines</a> so that ROBLOX can be fun for users of all ages.
+        </p>
+        
+        <p>Your account has been disabled for <span id="banDurationText"></span>. You may re-activate it after <span id="banReactivateDate"></span></p>
+
+        <div class="ban-appeal-section">
+          <p style="margin-bottom: 10px; font-weight: bold;">Appeal this decision:</p>
+          <textarea id="appealInput" placeholder="Explain why you should be unbanned..."></textarea>
+          <br>
+          <button onclick="submitAppeal()">Submit Appeal</button>
+          <button onclick="handleExit()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-container" id="registerPage">
+      <div class="form-box">
+        <div class="form-title">Регистрация</div>
+        <div class="error-msg" id="regError">Логин занят или поля пустые!</div>
+        <div class="input-group"><label>Логин:</label><input type="text" id="regUser"></div>
+        <div class="input-group"><label>Пароль:</label><input type="password" id="regPass"></div>
+        <button class="btn-submit" onclick="handleRegister()">Создать аккаунт</button>
+        <button class="btn-back" onclick="goBack()">Назад на главную</button>
+      </div>
+    </div>
+
+    <div class="form-container" id="loginPage">
+      <div class="form-box">
+        <div class="form-title">Вход</div>
+        <div class="error-msg" id="logError">Неверный логин или пароль!</div>
+        <div class="input-group"><label>Логин:</label><input type="text" id="logUser"></div>
+        <div class="input-group"><label>Пароль:</label><input type="password" id="logPass"></div>
+        <button class="btn-submit" onclick="handleLogin()">Войти</button>
+        <button class="btn-back" onclick="goBack()">Назад на главную</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentUser = localStorage.getItem('currentUser');
+    let isAdmin = false;
+    let consoleState = 'normal'; 
+    let tempAdminUser = '';
+
+    const mainPage = document.getElementById('mainPage');
+    const dashboardPage = document.getElementById('dashboardPage');
+    const friendsPage = document.getElementById('friendsPage');
+    const mailPage = document.getElementById('mailPage');
+    const consolePage = document.getElementById('consolePage');
+    const adminPanelPage = document.getElementById('adminPanelPage');
+    const registerPage = document.getElementById('registerPage');
+    const loginPage = document.getElementById('loginPage');
+    const banOverlay = document.getElementById('banOverlay');
+    
+    function showForm(type) {
+      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active');
+      mailPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      document.getElementById('top-buttons').style.display = 'none';
+      if (type === 'register') registerPage.classList.add('active');
+      else if (type === 'login') loginPage.classList.add('active');
+    }
+
+    function showFriendsPage() { dashboardPage.classList.remove('active'); friendsPage.classList.add('active'); }
+    
+    // ЗАЩИТА ПОЧТЫ (Требуется вход)
+    function showMailPage() {
+      if (!currentUser) {
+        alert('Ошибка доступа: Пожалуйста, войдите в аккаунт, чтобы проверить почту.');
+        return;
+      }
+      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      mailPage.classList.add('active');
+      renderMail(); 
+    }
+
+    // ЗАЩИТА КОНСОЛИ (Требуется вход)
+    function showConsolePage() {
+      if (!currentUser) {
+        alert('Ошибка доступа: Пожалуйста, войдите в аккаунт, чтобы получить доступ к консоли.');
+        return;
+      }
+      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); mailPage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      consolePage.classList.add('active');
+      document.getElementById('consoleInput').focus();
+    }
+
+    // ЗАЩИТА АДМИНКИ (Требуется вход и права)
+    function showAdminPanel() {
+      if (!currentUser) {
+        alert('Ошибка доступа: Пожалуйста, войдите в аккаунт.');
+        return;
+      }
+      const hasAdminAccess = currentUser === 'Administrator' || localStorage.getItem('admin_access_' + currentUser) === 'true';
+      if (!hasAdminAccess) return;
+      
+      mainPage.classList.remove('active'); dashboardPage.classList.remove('active'); friendsPage.classList.remove('active'); mailPage.classList.remove('active'); consolePage.classList.remove('active');
+      adminPanelPage.classList.add('active');
+      document.getElementById('adminSearch').value = '';
+      renderAdminPanel('');
+    }
+
+    function goBack() {
+      registerPage.classList.remove('active'); loginPage.classList.remove('active');
+      friendsPage.classList.remove('active'); mailPage.classList.remove('active'); consolePage.classList.remove('active'); adminPanelPage.classList.remove('active');
+      document.getElementById('regError').style.display = 'none'; document.getElementById('logError').style.display = 'none';
+      document.getElementById('top-buttons').style.display = 'flex';
+      updateUI();
+    }
+
+    function handleRegister() {
+      const user = document.getElementById('regUser').value.trim();
+      const pass = document.getElementById('regPass').value.trim();
+      const error = document.getElementById('regError');
+      if (!user || !pass) { error.style.display = 'block'; return; }
+      if (localStorage.getItem('user_' + user)) {
+        error.textContent = 'Этот логин уже занят!'; error.style.display = 'block'; return;
+      }
+      localStorage.setItem('user_' + user, pass);
+      alert('Аккаунт создан!');
+      goBack(); showForm('login');
+    }
+
+    function handleLogin() {
+      const user = document.getElementById('logUser').value.trim();
+      const pass = document.getElementById('logPass').value.trim();
+      const error = document.getElementById('logError');
+      if (!user || !pass) { error.style.display = 'block'; return; }
+      
+      const banData = localStorage.getItem('ban_' + user);
+      if (banData) {
+        const ban = JSON.parse(banData);
+        if (ban.type === 'perm') { showBanScreen(user, ban.reason, 'Навсегда'); return; }
+        else if (ban.type === 'temp') {
+          if (Date.now() < ban.until) {
+            const daysLeft = Math.ceil((ban.until - Date.now()) / (1000 * 60 * 60 * 24));
+            showBanScreen(user, ban.reason, daysLeft + ' Days', ban.until); return;
+          } else { localStorage.removeItem('ban_' + user); }
+        }
+      }
+
+      const storedPass = localStorage.getItem('user_' + user);
+      if (storedPass && storedPass === pass) {
+        localStorage.setItem('currentUser', user);
+        currentUser = user;
+        goBack(); updateUI();
+      } else { error.textContent = 'Неверный логин или пароль!'; error.style.display = 'block'; }
+    }
+
+    function handleExit() {
+      localStorage.removeItem('currentUser');
+      currentUser = null;
+      isAdmin = false;
+      banOverlay.style.display = 'none';
+      goBack();
+    }
+
+    function updateUI() {
+      currentUser = localStorage.getItem('currentUser');
+      const adminBtns = document.querySelectorAll('.admin-only-tab');
+      
+      if (currentUser) {
+        const banData = localStorage.getItem('ban_' + currentUser);
+        if (banData) {
+          const ban = JSON.parse(banData);
+          if (ban.type === 'perm') { showBanScreen(currentUser, ban.reason, 'Навсегда'); return; }
+          if (ban.type === 'temp' && Date.now() < ban.until) { 
+            const daysLeft = Math.ceil((ban.until - Date.now()) / (1000 * 60 * 60 * 24));
+            showBanScreen(currentUser, ban.reason, daysLeft + ' Days', ban.until); return; 
+          }
+        }
+
+        btnReg.style.display = 'none'; btnLog.style.display = 'none'; btnExit.style.display = 'block';
+        userStatus.style.display = 'block'; userStatus.textContent = 'Вы вошли как: ' + currentUser;
+        document.getElementById('profileUsername').textContent = currentUser;
+        
+        const hasAdminAccess = currentUser === 'Administrator' || localStorage.getItem('admin_access_' + currentUser) === 'true';
+        if (hasAdminAccess) {
+          adminBtns.forEach(btn => btn.style.display = 'block');
+        } else {
+          adminBtns.forEach(btn => btn.style.display = 'none');
+        }
+
+        dashboardPage.classList.add('active');
+      } else {
+        btnReg.style.display = 'block'; btnLog.style.display = 'block'; btnExit.style.display = 'none';
+        userStatus.style.display = 'none';
+        adminBtns.forEach(btn => btn.style.display = 'none');
+        mainPage.classList.add('active');
+      }
+    }
+
+    function showBanScreen(user, reason, durationText, untilDate = null) {
+      localStorage.removeItem('currentUser'); 
+      currentUser = null;
+      document.getElementById('top-buttons').style.display = 'none';
+      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+      
+      banOverlay.style.display = 'flex';
+      
+      const now = new Date();
+      const reviewedStr = now.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-US');
+      document.getElementById('banReviewedDate').textContent = reviewedStr;
+
+      if (durationText === 'Навсегда') {
+        document.getElementById('banTitle').textContent = "Account Deleted";
+        document.getElementById('banDurationText').textContent = "permanently";
+        document.getElementById('banReactivateDate').textContent = "Never";
+      } else {
+        document.getElementById('banTitle').textContent = `Banned for ${durationText}`;
+        document.getElementById('banDurationText').textContent = durationText;
+        
+        const reactivate = new Date(untilDate || (now.getTime() + parseInt(durationText) * 24 * 60 * 60 * 1000));
+        const reactivateStr = reactivate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) + ' ' + reactivate.toLocaleTimeString('en-US');
+        document.getElementById('banReactivateDate').textContent = reactivateStr;
+      }
+
+      document.getElementById('banReasonText').textContent = reason || 'Inappropriate behavior.';
+      
+      banOverlay.dataset.user = user; 
+    }
+
+    function submitAppeal() {
+      const user = banOverlay.dataset.user;
+      const text = document.getElementById('appealInput').value.trim();
+      if (!text) { alert('Напишите текст апелляции!'); return; }
+      
+      const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+      appeals.push({ user: user, text: text, date: new Date().toLocaleString('ru-RU') });
+      localStorage.setItem('appeals', JSON.stringify(appeals));
+      
+      alert('Апелляция отправлена администратору.');
+      document.getElementById('appealInput').value = '';
+      handleExit();
+    }
+
+    function renderMail() {
+      const container = document.getElementById('mailContainer');
+      container.innerHTML = '<div class="mail-toolbar">Inbox</div>';
+      
+      let mails = [
+        { sender: 'MrKohmes', subject: 'Пора на работу!', date: '10:42 AM', body: 'Привет! Ты опять проспал? Система охлаждения суперкомпьютера опять барахлит, а ты спишь! Быстро вставай и беги в комплекс.' },
+        { sender: 'dkcrystal', subject: 'Где тебя носит?!', date: '09:15 AM', body: 'Слушай, мы уже 20 минут стоим у входа в Console. Ты где? У нас тут ошибка в коде!' }
+      ];
+
+      const hasAdminAccess = currentUser === 'Administrator' || localStorage.getItem('admin_access_' + currentUser) === 'true';
+      if (hasAdminAccess) {
+        const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+        appeals.reverse().forEach((appeal) => {
+          mails.unshift({
+            sender: appeal.user,
+            subject: 'АППЕЛЯЦИЯ НА БАН',
+            date: appeal.date,
+            body: `Пользователь ${appeal.user} просит разбанить его.\n\nТекст: "${appeal.text}"`
+          });
+        });
+      }
+
+      mails.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'mail-item unread';
+        div.onclick = function() { toggleMail(this); };
+        div.innerHTML = `
+          <div class="mail-summary">
+            <div class="mail-sender">${m.sender}</div>
+            <div class="mail-subject">${m.subject}</div>
+            <div class="mail-date">${m.date}</div>
+          </div>
+          <div class="mail-detail">${m.body.replace(/\n/g, '<br>')}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleMail(el) {
+      el.classList.remove('unread');
+      const isExp = el.classList.contains('expanded');
+      document.querySelectorAll('.mail-item').forEach(i => i.classList.remove('expanded'));
+      if (!isExp) el.classList.add('expanded');
+    }
+
+    const consoleInput = document.getElementById('consoleInput');
+    const consoleOutput = document.getElementById('consoleOutput');
+
+    consoleInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const val = this.value.trim();
+        if (!val) return;
+        
+        if (consoleState === 'iss_pass') {
+          printLine('> ********');
+        } else {
+          printLine(`> ${val}`);
+        }
+        
+        this.value = '';
+        processCommand(val);
+      }
+    });
+
+    function printLine(text, color = '#0f0') {
+      const p = document.createElement('div');
+      p.style.color = color;
+      p.innerText = text;
+      consoleOutput.appendChild(p);
+      consoleOutput.parentElement.scrollTop = consoleOutput.parentElement.scrollHeight;
+    }
+
+    function processCommand(cmd) {
+      if (consoleState === 'iss_user') {
+        tempAdminUser = cmd;
+        consoleState = 'iss_pass';
+        printLine('Password:');
+        consoleInput.type = 'password';
+        return;
+      }
+      if (consoleState === 'iss_pass') {
+        if (tempAdminUser === 'Administrator' && cmd === 'Pinewood.inc') {
+          isAdmin = true;
+          localStorage.setItem('admin_access_' + currentUser, 'true');
+          printLine('SUCCESS: Logged in as Administrator.', '#0ff');
+          printLine('Admin Panel unlocked in the top menu.', '#0ff');
+          updateUI();
+        } else {
+          printLine('ERROR: Access Denied.', '#f00');
+        }
+        consoleState = 'normal';
+        consoleInput.type = 'text';
+        tempAdminUser = '';
+        return;
+      }
+
+      const args = cmd.split(' ');
+      const command = args[0].toLowerCase();
+
+      switch(command) {
+        case 'help':
+          printLine('Available commands:');
+          printLine('  ISS - Login as Admin');
+          printLine('  clear - Clear screen');
+          if (isAdmin || localStorage.getItem('admin_access_' + currentUser) === 'true') {
+            printLine('  ban <user> <days> <reason>');
+            printLine('  delete <user> <reason>');
+          }
+          break;
+        case 'clear': consoleOutput.innerHTML = ''; break;
+        case 'iss':
+          if (isAdmin || localStorage.getItem('admin_access_' + currentUser) === 'true') {
+            printLine('Already logged in.', '#ff0');
+          } else {
+            printLine('SYSTEM: Enter Admin Username:'); 
+            consoleState = 'iss_user';
+          }
+          break;
+        case 'ban':
+          if (!isAdmin && localStorage.getItem('admin_access_' + currentUser) !== 'true') { printLine('Access Denied.', '#f00'); break; }
+          if (args.length < 4) { printLine('Usage: ban <user> <days> <reason>'); break; }
+          const targetBan = args[1]; const days = parseInt(args[2]); const reasonBan = args.slice(3).join(' ');
+          if (!localStorage.getItem('user_' + targetBan)) { printLine('User not found.', '#f00'); break; }
+          const untilDate = Date.now() + (days * 24 * 60 * 60 * 1000);
+          localStorage.setItem('ban_' + targetBan, JSON.stringify({ type: 'temp', until: untilDate, reason: reasonBan }));
+          printLine(`User ${targetBan} banned for ${days} days.`, '#ff0');
+          break;
+        case 'delete':
+          if (!isAdmin && localStorage.getItem('admin_access_' + currentUser) !== 'true') { printLine('Access Denied.', '#f00'); break; }
+          if (args.length < 3) { printLine('Usage: delete <user> <reason>'); break; }
+          const targetDel = args[1]; const reasonDel = args.slice(2).join(' ');
+          if (!localStorage.getItem('user_' + targetDel)) { printLine('User not found.', '#f00'); break; }
+          localStorage.setItem('ban_' + targetDel, JSON.stringify({ type: 'perm', reason: reasonDel }));
+          printLine(`User ${targetDel} deleted.`, '#f00');
+          break;
+        default: printLine('Unknown command.', '#f00');
+      }
+    }
+
+    function renderAdminPanel(searchQuery = '') {
+      const userList = document.getElementById('userListContainer');
+      let users = Object.keys(localStorage).filter(k => k.startsWith('user_')).map(k => k.replace('user_', ''));
+      
+      if (searchQuery) {
+        users = users.filter(u => u.toLowerCase().includes(searchQuery.toLowerCase()));
+      }
+
+      let html = '<table class="admin-table"><tr><th>Username</th><th>Status</th><th>Actions</th></tr>';
+      
+      if (users.length === 0) {
+        html += '<tr><td colspan="3" style="text-align:center;">No users found.</td></tr>';
+      } else {
+        users.forEach(username => {
+          const banData = localStorage.getItem('ban_' + username);
+          let status = '<span style="color:green;">Active</span>';
+          let actionBtns = `
+            <button class="admin-btn ban" onclick="promptBan('${username}')">Ban</button>
+            <button class="admin-btn delete" onclick="promptDelete('${username}')">Delete</button>
+          `;
+          if (banData) {
+            const ban = JSON.parse(banData);
+            status = `<span style="color:red;">Banned (${ban.type === 'perm' ? 'Perm' : 'Temp'})</span>`;
+            actionBtns = `<button class="admin-btn unban" onclick="adminUnban('${username}')">Unban</button>`;
+          }
+          html += `<tr><td>${username}</td><td>${status}</td><td>${actionBtns}</td></tr>`;
+        });
+      }
+      html += '</table>';
+      userList.innerHTML = html;
+
+      const appealsContainer = document.getElementById('appealsContainer');
+      const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+      if (appeals.length === 0) {
+        appealsContainer.innerHTML = '<p style="font-size:13px;">No pending appeals.</p>';
+      } else {
+        let appHtml = '';
+        appeals.forEach((a, i) => {
+          appHtml += `<div class="appeal-card">
+            <strong>User: ${a.user}</strong> (${a.date})<br>
+            <p>${a.text}</p>
+            <button class="admin-btn unban" onclick="acceptAppeal(${i}, '${a.user}')">Accept (Unban)</button>
+            <button class="admin-btn delete" onclick="denyAppeal(${i})">Deny</button>
+          </div>`;
+        });
+        appealsContainer.innerHTML = appHtml;
+      }
+    }
+
+    function promptBan(username) {
+      const days = prompt(`Enter ban duration in days for ${username}:`, "7");
+      if (!days) return;
+      const reason = prompt("Enter ban reason:", "Violation of rules");
+      if (!reason) return;
+      const untilDate = Date.now() + (parseInt(days) * 24 * 60 * 60 * 1000);
+      localStorage.setItem('ban_' + username, JSON.stringify({ type: 'temp', until: untilDate, reason: reason }));
+      renderAdminPanel(document.getElementById('adminSearch').value);
+    }
+
+    function promptDelete(username) {
+      const reason = prompt(`Enter reason for PERMANENT deletion of ${username}:`, "Severe violation");
+      if (!reason) return;
+      localStorage.setItem('ban_' + username, JSON.stringify({ type: 'perm', reason: reason }));
+      renderAdminPanel(document.getElementById('adminSearch').value);
+    }
+
+    function adminUnban(username) {
+      localStorage.removeItem('ban_' + username);
+      renderAdminPanel(document.getElementById('adminSearch').value);
+    }
+
+    function acceptAppeal(index, username) {
+      localStorage.removeItem('ban_' + username);
+      removeAppeal(index);
+      renderAdminPanel(document.getElementById('adminSearch').value);
+    }
+
+    function denyAppeal(index) {
+      removeAppeal(index);
+      renderAdminPanel(document.getElementById('adminSearch').value);
+    }
+
+    function removeAppeal(index) {
+      let appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+      appeals.splice(index, 1);
+      localStorage.setItem('appeals', JSON.stringify(appeals));
+    }
+
+    updateUI();
+  </script>
+
+</body>
+</html>
